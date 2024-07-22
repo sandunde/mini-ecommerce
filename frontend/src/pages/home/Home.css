@@ -1,0 +1,24 @@
+.new-product h2 {
+    font-family   : Satoshi;
+    font-size     : 36px;
+    font-weight   : 900;
+    line-height   : 48.6px;
+    letter-spacing: 0.15em;
+    text-align    : left;
+
+}
+
+.action-btn {
+    display        : flex;
+    flex-direction : row;
+    gap            : 10px;
+    justify-content: end;
+    margin-right: 50px;
+}
+
+.product-table-container {
+    display        : flex;
+    justify-content: center;
+    margin         : 0 auto;
+    width          : 1200px;
+}

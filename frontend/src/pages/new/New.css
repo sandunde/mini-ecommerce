@@ -1,0 +1,191 @@
+.new-product {
+    display       : flex;
+    flex-direction: row;
+    align-items   : center;
+    gap           : 15px;
+}
+
+.new-product h2 {
+    font-family   : Satoshi;
+    font-size     : 36px;
+    font-weight   : 900;
+    line-height   : 48.6px;
+    letter-spacing: 0.15em;
+    text-align    : left;
+
+}
+
+.new-product img {
+    margin-top: -9px;
+}
+
+.new-product h5 {
+    font-family   : Satoshi;
+    font-size     : 24px;
+    font-weight   : 700;
+    line-height   : 32.4px;
+    letter-spacing: 0.08em;
+    text-align    : left;
+    color         : var(--blue);
+}
+
+.sku-section {
+    margin-top : 50px;
+    width      : 500px;
+    font-family: Satoshi;
+    font-size  : 19px;
+    font-weight: 500;
+    line-height: 25.65px;
+    text-align : left;
+}
+
+.form-box {
+    background-color: var(--light-gray) !important;
+    border          : none !important;
+}
+
+.name-section {
+    display       : flex;
+    flex-direction: row;
+}
+
+.name {
+    width: 500px;
+}
+
+.qty {
+    width: 500px;
+}
+
+.description-section {
+    margin-top: 50px;
+    width     : 1360px;
+}
+
+.form-box-desc {
+    background-color: var(--light-gray) !important;
+    border          : none !important;
+    height          : 100px;
+}
+
+.description-section p {
+    font-family: Satoshi;
+    font-size  : 14px;
+    font-weight: 500;
+    line-height: 18.9px;
+    text-align : left;
+}
+
+.image-section {
+    display       : flex;
+    flex-direction: row;
+    align-items   : first baseline;
+    gap: 30px;
+}
+
+.image-section button{
+    background-color: var(--white);
+    border: none;
+    color: var(--blue);
+    text-decoration: underline;
+}
+
+.image-content h5 {
+    font-family: Satoshi;
+    font-size  : 19px;
+    font-weight: 500;
+    line-height: 25.65px;
+    text-align : left;
+}
+
+.image-content p {
+    font-family: Satoshi;
+    font-size  : 14px;
+    font-weight: 500;
+    line-height: 18.9px;
+    text-align : left;
+}
+
+.add-btn{
+    display: flex;
+    justify-content: end;
+}
+
+.add-btn button{
+    background-color: var(--blue);
+    border-color: var(--blue);
+    width: 200px;
+    border-radius: 10px;
+    margin-right: 100px;
+}
+
+@media (max-width: 768px) {
+    .new-product {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .new-product h2, .new-product h5 {
+        font-size: 28px;
+        line-height: 36px;
+    }
+
+    .sku-section {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .name, .qty {
+        width: 100%;
+    }
+
+    .description-section {
+        width: 100%;
+    }
+
+    .form-box-desc {
+        height: 80px;
+    }
+
+    .image-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .image-content h5, .image-content p {
+        font-size: 16px;
+    }
+
+    .add-btn {
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .add-btn button {
+        width: 150px;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .new-product h2, .new-product h5 {
+        font-size: 24px;
+        line-height: 30px;
+    }
+
+    .sku-section {
+        font-size: 14px;
+    }
+
+    .form-box-desc {
+        height: 60px;
+    }
+
+    .image-content h5, .image-content p {
+        font-size: 14px;
+    }
+
+    .add-btn button {
+        width: 120px;
+    }
+}

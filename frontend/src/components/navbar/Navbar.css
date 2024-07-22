@@ -1,0 +1,41 @@
+.nav-bar {
+    display        : flex;
+    flex-direction : row;
+    justify-content: end;
+    align-items    : center;
+    gap            : 20px;
+}
+
+.profile-container {
+    position: relative;
+}
+
+.profile-pic {
+    width: 50px;
+}
+
+.status-dot {
+    position        : absolute;
+    background-color: #3ef265;
+    bottom          : 2px;
+    width           : 10px;
+    height          : 10px;
+    border-radius   : 50%;
+    right           : 5px;
+}
+
+.status-dot.inactive {
+    background-color: red;
+}
+
+.dropdown-btn {
+    background-color: white !important;
+    color           : var(--dark-blue) !important;
+    border          : none !important;
+    font-family     : Satoshi;
+    font-size       : 19px;
+    font-weight     : 700;
+    line-height     : 25.65px;
+    text-align      : left;
+
+}

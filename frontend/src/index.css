@@ -1,0 +1,37 @@
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/Users/sandundesilva/Documents/Freelance/mini-ecommerce/frontend/src/assets/font/Satoshi-Regular.woff2') format('woff2'),
+       url('/Users/sandundesilva/Documents/Freelance/mini-ecommerce/frontend/src/assets/font/Satoshi-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/Users/sandundesilva/Documents/Freelance/mini-ecommerce/frontend/src/assets/font/Satoshi-Bold.woff2') format('woff2'),
+       url('/Users/sandundesilva/Documents/Freelance/mini-ecommerce/frontend/src/assets/font/Satoshi-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+:root {
+  --white: #ffffff;
+  --light-gray: #f7f7f7;
+  --medium-gray: #969191;
+  --blue: #001eb9;
+  --dark-blue: #162427;
+}
+
+body {
+  margin: 0;
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Satoshi', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
