@@ -13,7 +13,7 @@
     flex-direction : row;
     gap            : 10px;
     justify-content: end;
-    margin-right: 50px;
+    margin-right   : 50px;
 }
 
 .product-table-container {
@@ -21,4 +21,153 @@
     justify-content: center;
     margin         : 0 auto;
     width          : 1200px;
+}
+
+.header-section {
+    display      : flex;
+    align-items  : center;
+    width        : 100%;
+    margin-top   : 30px;
+    margin-bottom: 30px;
+}
+
+.col-2 {
+    display       : flex;
+    flex-direction: column;
+    align-items   : last baseline;
+    margin-left   : 100px;
+}
+
+.col-2 button {
+    background-color: var(--blue);
+    border          : none;
+    border-radius   : 10px;
+    width           : 200px;
+    padding         : 10px 45px;
+}
+
+.col-2 button:hover {
+    background-color: var(--dark-blue);
+}
+
+.column-3 button {
+    padding         : 10px 5px;
+    width           : 62px;
+    background-color: var(--white);
+    border-color    : var(--blue);
+}
+
+.column-3 button:hover {
+    background-color: var(--dark-blue);
+    border-color    : var(--blue);
+}
+
+.search-bar {
+    background-color: var(--light-gray);
+    border-radius   : 50px;
+    display         : flex;
+    justify-content : space-between;
+    padding         : 10px;
+    height          : 64px;
+    width           : 657px;
+}
+
+.search-bar input {
+    background-color: var(--light-grey);
+    border          : none;
+    margin-left     : 10px;
+    width           : 300px;
+}
+
+.search-bar button {
+    background-color: var(--blue);
+    border          : none;
+    width           : 150px;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+    gap             : 10px;
+    border-radius   : 50px;
+}
+
+.search-bar button:hover {
+    background-color: var(--dark-blue);
+}
+
+.t-head th {
+    color: var(--blue) !important;
+}
+
+.search-result-item {
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+    padding        : 0px 150px;
+    border-bottom  : 1px solid;
+    margin         : 20px 100px;
+}
+
+.search-product-details h5 {
+    color      : var(--blue);
+    font-family: Satoshi;
+    font-size  : 14px;
+    font-weight: 500;
+    line-height: 1px;
+    text-align : left;
+}
+
+.search-product-details p {
+    font-family: Satoshi;
+    font-size  : 14px;
+    font-weight: 400;
+    line-height: 18.9px;
+    text-align : left;
+}
+
+.search-length {
+    font-family   : Satoshi;
+    font-size     : 24px;
+    font-weight   : 700;
+    line-height   : 32.4px;
+    letter-spacing: 0.08em;
+    text-align    : left;
+    margin-bottom: 50px;
+}
+
+.search-result-item button{
+    background-color: var(--white);
+    border: none;
+}
+
+.model-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10px 20px 10px;
+}
+
+.modal-header {
+    border: none !important;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center !important;
+    border: none !important;
+    margin-top: -40px;
+    padding-bottom: 50px !important;
+}
+
+.cancel-btn {
+    background-color: var(--white) !important;
+    color: var(--dark-blue) !important;
+    border-color: var(--blue) !important;
+    font-family: Satoshi;
+}
+
+.delete-btn {
+    background-color: var(--blue) !important;
+    border-color: var(--blue) !important;
+    font-family: Satoshi;
 }

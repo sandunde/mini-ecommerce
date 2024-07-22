@@ -3,6 +3,7 @@ import axios from 'axios';
 import "./New.css";
 import Arrow from "../../assets/arrow.svg";
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const New = () => {
     const [sku, setSku] = useState('');
@@ -10,12 +11,16 @@ const New = () => {
     const [qty, setQty] = useState(0);
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
+    const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
     const [price, setPrice] = useState(0);
     const fileInputRef = useRef(null);
+    const navigate = useNavigate();
 
     const handleFileUpload = (event) => {
         if (event.target.files.length > 0) {
-            setImage(event.target.files[0]);
+            const file = event.target.files[0];
+            setImage(file);
+            setImagePreviewUrl(URL.createObjectURL(file));
         }
     };
 
@@ -39,12 +44,18 @@ const New = () => {
         }).then(response => {
             setSku('');
             setName('');
-            setQty(0)
+            setQty(0);
             setImage(null);
-            setDescription('')
-            setPrice(0)
+            setImagePreviewUrl(null);
+            setDescription('');
+            setPrice(0);
         }).catch(error => console.error(error));
-    }
+        navigate("/");
+    };
+
+    const isFormComplete = () => {
+        return sku && name && qty && description && image && price;
+    };
 
     return (
         <div>
@@ -133,20 +144,26 @@ const New = () => {
                     <p>JPEG, PNG, SVG or GIF <br />
                         (Maximum file size 50MB)</p>
                 </div>
-                <div className='show-image'></div>
+                {imagePreviewUrl && (
+                    <div className='show-image'>
+                        <img src={imagePreviewUrl} alt="Product Preview" width="100"
+                            height="100"
+                            style={{ borderRadius: "20px", marginTop: "60px" }} />
+                    </div>
+                )}
                 <Button onClick={triggerFileInput}>Add Images</Button>
-                <input 
-                type="file" 
-                ref={fileInputRef}
-                style={{ display: 'none' }} 
-                onChange={handleFileUpload} 
-            />
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleFileUpload}
+                />
             </div>
             <div className='add-btn'>
-                <Button onClick={addItem}>Add Product</Button>
+                <Button onClick={addItem} disabled={!isFormComplete()}>Add Product</Button>
             </div>
         </div>
-    )
+    );
 }
 
-export default New
+export default New;
