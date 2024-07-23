@@ -76,11 +76,8 @@
     background-color: var(--light-grey);
     border          : none;
     margin-left     : 10px;
-    width           : 300px;
-}
-
-.search-bar input{
-    border-color: var(--white) !important;
+    width           : 400px;
+    outline: none; 
 }
 
 
@@ -97,6 +94,12 @@
 
 .search-bar button:hover {
     background-color: var(--dark-blue);
+}
+
+.search-bar button:disabled {
+    background-color: var(--blue);
+    opacity: 1;
+    cursor: not-allowed !important;
 }
 
 .t-head th {
@@ -180,4 +183,23 @@
     background-color: var(--blue) !important;
     border-color: var(--blue) !important;
     font-family: Satoshi;
+}
+
+.suggestions {
+    position: absolute;
+    background-color: var(--light-gray);
+    border-top: none;
+    z-index: 1000;
+    margin-top: 50px;
+    width: 300px;
+    margin-left: 20px;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
 }

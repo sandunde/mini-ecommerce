@@ -12,6 +12,7 @@
     line-height   : 48.6px;
     letter-spacing: 0.15em;
     text-align    : left;
+    cursor: pointer;
 
 }
 
@@ -122,6 +123,11 @@
 .add-btn button:hover{
     background-color: var(--dark-blue);
     border-color: var(--dark-blue);
+}
+
+.add-btn button:disabled{
+    background-color: var(--blue);
+    border-color: var(--blue);
 }
 
 @media (max-width: 768px) {

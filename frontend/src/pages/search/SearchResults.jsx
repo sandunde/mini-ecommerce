@@ -16,8 +16,12 @@ const SearchResults = () => {
 
     const [items, setItems] = useState([]);
 
-    const productPage = () => {
+    const handleCreate = () => {
         navigate('/create');
+    };
+
+    const handleHome = () => {
+        navigate('/');
     };
 
 
@@ -36,7 +40,7 @@ const SearchResults = () => {
     return (
         <div className='search-results'>
             <div className='new-product'>
-                <h2>PRODUCTS</h2>
+                <h2 onClick={handleHome}>PRODUCTS</h2>
             </div>
             <div className='header-section'>
                 <Row className='header-section'>
@@ -51,7 +55,7 @@ const SearchResults = () => {
                         </div>
                     </Col>
                     <Col xs={2} className='col-2'>
-                        <Button onClick={productPage}>New Product</Button>
+                        <Button onClick={handleCreate}>New Product</Button>
                     </Col>
                     <Col xs={1} className='column-3'>
                         <Button><img src={Starred} alt='star'  /></Button>
@@ -73,7 +77,7 @@ const SearchResults = () => {
                     </div>
                 ))
             ) : (
-                <p>No results found for "{searchQuery}"</p>
+               null
             )}
         </div>
     );

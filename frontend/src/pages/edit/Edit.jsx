@@ -31,6 +31,10 @@ const Edit = () => {
       }).catch(error => console.error('Error fetching product:', error));
   }, [id]);
 
+  const handleHome = () => {
+    navigate('/')
+  }
+
   const handleFileUpload = (event) => {
     const files = Array.from(event.target.files);
     if (files.length > 0) {
@@ -69,7 +73,7 @@ const Edit = () => {
   return (
     <div>
       <div className='new-product'>
-        <h2>PRODUCTS</h2>
+        <h2 onClick={handleHome}>PRODUCTS</h2>
         <img src={Arrow} alt='arrow' />
         <h5>Edit product</h5>
       </div>

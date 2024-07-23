@@ -25,6 +25,10 @@ const New = () => {
         }
     };
 
+    const handleHome = () => {
+        navigate('/')
+    }
+
     const triggerFileInput = () => {
         fileInputRef.current.click();
     };
@@ -63,7 +67,7 @@ const New = () => {
     return (
         <div>
             <div className='new-product'>
-                <h2>PRODUCTS</h2>
+                <h2 onClick={handleHome}>PRODUCTS</h2>
                 <img src={Arrow} alt='arrow' />
                 <h5>Add new product</h5>
             </div>
