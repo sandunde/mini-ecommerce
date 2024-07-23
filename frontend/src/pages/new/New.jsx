@@ -135,7 +135,13 @@ const New = () => {
                         </Form.Label>
                         <p>A small description about the product</p>
                         <Col sm={10}>
-                            <Form.Control type="text" value={description} onChange={e => setDescription(e.target.value)} className='form-box-desc' />
+                        <Form.Control 
+                                as="textarea" 
+                                rows={3} 
+                                value={description} 
+                                onChange={e => setDescription(e.target.value)} 
+                                className='form-box-desc' 
+                            />
                         </Col>
                     </Form.Group>
                 </Form>
