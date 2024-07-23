@@ -79,6 +79,11 @@
     width           : 300px;
 }
 
+.search-bar input{
+    border-color: var(--white) !important;
+}
+
+
 .search-bar button {
     background-color: var(--blue);
     border          : none;
@@ -102,7 +107,7 @@
     display        : flex;
     align-items    : center;
     justify-content: space-between;
-    padding        : 0px 150px;
+    padding        : 0px 50px;
     border-bottom  : 1px solid;
     margin         : 20px 100px;
 }
@@ -136,6 +141,11 @@
 
 .search-result-item button{
     background-color: var(--white);
+    border: none;
+}
+
+.search-result-item button:hover{
+    background-color: var(--dark-blue);
     border: none;
 }
 

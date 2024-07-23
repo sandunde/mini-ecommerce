@@ -5,7 +5,6 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import "./Edit.css";
 
-
 const Edit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -15,8 +14,8 @@ const Edit = () => {
   const [qty, setQty] = useState(0);
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
-  const [image, setImage] = useState(null);
-  const [existingImage, setExistingImage] = useState('');
+  const [images, setImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -24,23 +23,20 @@ const Edit = () => {
       .then(response => {
         const product = response.data;
         setSku(product.sku);
-        setName(product.name)
-        setPrice(product.price)
-        setDescription(product.description)
-        setQty(product.qty)
-        setExistingImage(product.image)
+        setName(product.name);
+        setPrice(product.price);
+        setDescription(product.description);
+        setQty(product.qty);
+        setExistingImages(product.images || []);
       }).catch(error => console.error('Error fetching product:', error));
   }, [id]);
 
   const handleFileUpload = (event) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      setImage(files[0]);
-      const fileURL = URL.createObjectURL(files[0]);
-      setExistingImage(fileURL);
+    const files = Array.from(event.target.files);
+    if (files.length > 0) {
+      setImages(files);
     }
   };
-
 
   const triggerFileInput = () => {
     fileInputRef.current.click();
@@ -54,19 +50,17 @@ const Edit = () => {
     formData.append('description', description);
     formData.append('price', price);
 
-    if (image) {
-      formData.append('image', image);
-    } else {
-      formData.append('existingImage', existingImage);
-    }
+    images.forEach((image) => {
+      formData.append('images', image);
+    });
 
     try {
-      await axios.put(`http://localhost:5000/items/${id}`, formData, {
+      await axios.put(`http://localhost:5000/update-items/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      navigate('/')
+      navigate('/');
     } catch (error) {
       console.error('Error updating product:', error.response?.data || error.message);
     }
@@ -77,7 +71,7 @@ const Edit = () => {
       <div className='new-product'>
         <h2>PRODUCTS</h2>
         <img src={Arrow} alt='arrow' />
-        <h5> Edit product</h5>
+        <h5>Edit product</h5>
       </div>
       <Row>
         <Col xs={6}>
@@ -148,7 +142,7 @@ const Edit = () => {
             </Form.Label>
             <p>A small description about the product</p>
             <Col sm={10}>
-              <Form.Control type="textarea" value={description} onChange={e => setDescription(e.target.value)} className='form-box-desc' />
+              <Form.Control as="textarea" value={description} onChange={e => setDescription(e.target.value)} className='form-box-desc' />
             </Col>
           </Form.Group>
         </Form>
@@ -159,32 +153,34 @@ const Edit = () => {
           <p>JPEG, PNG, SVG or GIF <br />
             (Maximum file size 50MB)</p>
         </div>
-        <div className='show-image'></div>
-        <div className='image-wrapper'>
-          {image && (
+        <div className='show-images'>
+          {images.length > 0 && images.map((file, index) => (
             <img
-              src={URL.createObjectURL(image)}
-              alt="New Product"
+              key={index}
+              src={URL.createObjectURL(file)}
+              alt={`New Product ${index + 1}`}
               width="100"
               height="100"
+              style={{ borderRadius: "20px", marginTop: "10px", marginRight: "10px" }}
             />
-          )}
-          {existingImage && !image && (
+          ))}
+          {existingImages.length > 0 && existingImages.map((image, index) => (
             <img
-              src={`http://localhost:5000${existingImage}`}
-              alt="Product"
+              key={index}
+              src={`http://localhost:5000${image}`}
+              alt={`Existing Product ${index + 1}`}
               width="100"
               height="100"
-              style={{ borderRadius: "20px", marginTop:"60px" }}
+              style={{ borderRadius: "20px", marginTop: "10px", marginRight: "10px" }}
             />
-          )}
+          ))}
         </div>
-
         <Button onClick={triggerFileInput}>Edit Images</Button>
         <input
           type="file"
           ref={fileInputRef}
           style={{ display: 'none' }}
+          multiple
           onChange={handleFileUpload}
         />
       </div>
@@ -192,7 +188,7 @@ const Edit = () => {
         <Button onClick={handleUpdate}>Save changes</Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Edit
+export default Edit;

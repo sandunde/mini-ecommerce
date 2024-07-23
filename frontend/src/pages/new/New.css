@@ -119,6 +119,11 @@
     margin-right: 100px;
 }
 
+.add-btn button:hover{
+    background-color: var(--dark-blue);
+    border-color: var(--dark-blue);
+}
+
 @media (max-width: 768px) {
     .new-product {
         flex-direction: column;

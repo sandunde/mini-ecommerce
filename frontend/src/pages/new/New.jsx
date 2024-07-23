@@ -10,17 +10,18 @@ const New = () => {
     const [name, setName] = useState('');
     const [qty, setQty] = useState(0);
     const [description, setDescription] = useState('');
-    const [image, setImage] = useState(null);
-    const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+    const [images, setImages] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
     const [price, setPrice] = useState(0);
     const fileInputRef = useRef(null);
     const navigate = useNavigate();
 
     const handleFileUpload = (event) => {
-        if (event.target.files.length > 0) {
-            const file = event.target.files[0];
-            setImage(file);
-            setImagePreviewUrl(URL.createObjectURL(file));
+        const files = Array.from(event.target.files);
+        if (files.length > 0) {
+            setImages(files);
+            const previews = files.map(file => URL.createObjectURL(file));
+            setImagePreviews(previews);
         }
     };
 
@@ -34,8 +35,10 @@ const New = () => {
         formData.append('name', name);
         formData.append('qty', qty);
         formData.append('description', description);
-        formData.append('image', image);
         formData.append('price', price);
+        images.forEach((image) => {
+            formData.append('images', image);
+        });
 
         axios.post('http://localhost:5000/items', formData, {
             headers: {
@@ -45,16 +48,16 @@ const New = () => {
             setSku('');
             setName('');
             setQty(0);
-            setImage(null);
-            setImagePreviewUrl(null);
+            setImages([]);
+            setImagePreviews([]);
             setDescription('');
             setPrice(0);
+            navigate("/");
         }).catch(error => console.error(error));
-        navigate("/");
     };
 
     const isFormComplete = () => {
-        return sku && name && qty && description && image && price;
+        return sku && name && qty && description && images.length > 0 && price;
     };
 
     return (
@@ -62,7 +65,7 @@ const New = () => {
             <div className='new-product'>
                 <h2>PRODUCTS</h2>
                 <img src={Arrow} alt='arrow' />
-                <h5> Add new product</h5>
+                <h5>Add new product</h5>
             </div>
             <Row>
                 <Col xs={6}>
@@ -144,11 +147,18 @@ const New = () => {
                     <p>JPEG, PNG, SVG or GIF <br />
                         (Maximum file size 50MB)</p>
                 </div>
-                {imagePreviewUrl && (
-                    <div className='show-image'>
-                        <img src={imagePreviewUrl} alt="Product Preview" width="100"
-                            height="100"
-                            style={{ borderRadius: "20px", marginTop: "60px" }} />
+                {imagePreviews.length > 0 && (
+                    <div className='show-images'>
+                        {imagePreviews.map((preview, index) => (
+                            <img 
+                                key={index}
+                                src={preview} 
+                                alt={`Product Preview ${index + 1}`} 
+                                width="100" 
+                                height="100" 
+                                style={{ borderRadius: "20px", marginTop: "10px", marginRight: "10px" }} 
+                            />
+                        ))}
                     </div>
                 )}
                 <Button onClick={triggerFileInput}>Add Images</Button>
@@ -156,6 +166,7 @@ const New = () => {
                     type="file"
                     ref={fileInputRef}
                     style={{ display: 'none' }}
+                    multiple
                     onChange={handleFileUpload}
                 />
             </div>

@@ -8,9 +8,7 @@ import Edit from "../../assets/edit.svg";
 import Star from "../../assets/star.svg";
 import Starred from "../../assets/starred.svg";
 import Search from "../../assets/scope.png";
-import Arrow from "../../assets/arrow.svg";
 import Danger from "../../assets/danger.png";
-
 
 const Home = () => {
     const [items, setItems] = useState([]);
@@ -28,7 +26,7 @@ const Home = () => {
                 setFilteredItems(response.data);
             })
             .catch(error => console.error(error));
-    }, [items]);
+    }, []);
 
     const handleEdit = (id) => {
         navigate(`/edit/${id}`);
@@ -45,17 +43,25 @@ const Home = () => {
 
     const handleStarToggle = async (id, currentStarred) => {
         try {
-            const updatedItem = await axios.put(`http://localhost:5000/items/${id}`, { starred: !currentStarred });
-            setItems(items.map(item => item._id === id ? updatedItem.data : item));
-            setFilteredItems(filteredItems.map(item => item._id === id ? updatedItem.data : item));
+            const updatedItem = await axios.put(`http://localhost:5000/update-items/${id}`, { starred: !currentStarred });
+            const updatedItems = items.map(item => 
+                item._id === id ? { ...item, starred: !currentStarred } : item
+            );
+            setItems(updatedItems);
+            
+            const updatedFilteredItems = filteredItems.map(item => 
+                item._id === id ? { ...item, starred: !currentStarred } : item
+            );
+            setFilteredItems(updatedFilteredItems);
         } catch (error) {
             console.error("Error updating starred status", error);
         }
     };
+    
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:5000/items/${deleteId}`);
+            await axios.delete(`http://localhost:5000/delete-items/${deleteId}`);
             setItems(items.filter(item => item._id !== deleteId));
             setFilteredItems(filteredItems.filter(item => item._id !== deleteId));
             setShowModal(false);
@@ -65,12 +71,15 @@ const Home = () => {
     };
 
     const handleSearch = () => {
-        if (searchQuery.trim() === '') {
-            setFilteredItems(items);
+        const query = searchQuery.trim().toLowerCase();
+        let filtered;
+        if (query === '') {
+            filtered = items;
         } else {
-            setFilteredItems(items.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())));
+            filtered = items.filter(item => item.name.toLowerCase().includes(query));
         }
-        setSearchClicked(true);
+        setFilteredItems(filtered);
+        navigate('/search-results', { state: { searchQuery: searchQuery, filteredItems: filtered } });
     };
 
     const showDeleteModal = (id) => {
@@ -109,24 +118,7 @@ const Home = () => {
                     </Col>
                 </Row>
             </div>
-            {searchClicked ? (
-                <div className='search-results'>
-                    <p className='search-length'>{filteredItems.length} results found for '{searchQuery}'</p>
-                    {filteredItems.length > 0 ? (
-                        filteredItems.map(item => (
-                            <div key={item._id} className='search-result-item'>
-                                <div className='search-product-details'>
-                                    <h5>{item.sku}</h5>
-                                    <h3>{item.name}</h3>
-                                    <p>{item.description}</p></div>
-                                <Button onClick={() => navigate(`/edit/${item._id}`)}><img src={Arrow} alt="arrow" /></Button>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No results found for "{searchQuery}"</p>
-                    )}
-                </div>
-            ) : (
+            {!searchClicked && (
                 <div className='product-table-container'>
                     <Table className='product-table'>
                         <thead>
@@ -143,10 +135,16 @@ const Home = () => {
                                 <tr key={item._id}>
                                     <td>{item.sku}</td>
                                     <td>
-                                        <img src={`http://localhost:5000${item.image}`} alt={item.name} width="50" height="50" style={{borderRadius: "6px"}}/>
+                                        <img
+                                            src={item.images && item.images.length > 0 ? `http://localhost:5000${item.images[0]}` : 'default-image-url'}
+                                            alt={item.name}
+                                            width="50"
+                                            height="50"
+                                            style={{ borderRadius: "6px" }}
+                                        />
                                     </td>
                                     <td>{item.name}</td>
-                                    <td>{item.price}</td>
+                                    <td>${item.price}.00</td>
                                     <td>
                                         <div className="action-btn">
                                             <img src={Delete} alt='delete' onClick={() => showDeleteModal(item._id)} />

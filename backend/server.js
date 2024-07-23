@@ -38,7 +38,7 @@ const itemSchema = new mongoose.Schema({
     qty: Number,
     description: String,
     price: Number,
-    image: String,
+    images: [String],
     starred: { type: Boolean, default: false },
 });
 
@@ -76,17 +76,20 @@ app.get("/items/:id", async (req, res) => {
     }
 });
 
-app.post("/items", upload.single("image"), async (req, res) => {
+app.post("/items", upload.array("images", 5), async (req, res) => {
     const { sku, name, qty, description, price, starred } = req.body;
+    const images = req.files ? req.files.map(file => `/uploads/${file.filename}`) : [];
+    
     const item = new Item({
         sku,
         name,
         qty,
         description,
         price,
-        image: req.file ? `/uploads/${req.file.filename}` : "",
+        images,
         starred: starred || false,
     });
+
     try {
         const newItem = await item.save();
         res.status(201).json(newItem);
@@ -95,10 +98,9 @@ app.post("/items", upload.single("image"), async (req, res) => {
     }
 });
 
-app.put("/items/:id", upload.single("image"), async (req, res) => {
+app.put("/update-items/:id", upload.array("images", 5), async (req, res) => {
     const { id } = req.params;
-    const { sku, name, qty, description, price, existingImage, starred } =
-        req.body;
+    const { sku, name, qty, description, price, existingImages, starred } = req.body;
 
     const updateData = {
         sku,
@@ -109,16 +111,14 @@ app.put("/items/:id", upload.single("image"), async (req, res) => {
         starred: starred || false,
     };
 
-    if (req.file) {
-        updateData.image = `/uploads/${req.file.filename}`;
-    } else if (existingImage) {
-        updateData.image = existingImage;
+    if (req.files && req.files.length > 0) {
+        updateData.images = req.files.map(file => `/uploads/${file.filename}`);
+    } else if (existingImages) {
+        updateData.images = JSON.parse(existingImages);
     }
 
     try {
-        const updatedItem = await Item.findByIdAndUpdate(id, updateData, {
-            new: true,
-        });
+        const updatedItem = await Item.findByIdAndUpdate(id, updateData, { new: true });
         if (!updatedItem) {
             return res.status(404).json({ message: "Item not found" });
         }
@@ -128,19 +128,21 @@ app.put("/items/:id", upload.single("image"), async (req, res) => {
     }
 });
 
-app.delete("/items/:id", async (req, res) => {
+app.delete("/delete-items/:id", async (req, res) => {
     const { id } = req.params;
     try {
         const item = await Item.findByIdAndDelete(id);
         if (!item) {
             return res.status(404).json({ message: "Item not found" });
         }
-        if (item.image) {
-            const imagePath = path.join(__dirname, item.image);
-            fs.unlink(imagePath, (err) => {
-                if (err) {
-                    console.error("Error deleting image file", err);
-                }
+        if (item.images && item.images.length > 0) {
+            item.images.forEach(imagePath => {
+                const fullImagePath = path.join(__dirname, imagePath);
+                fs.unlink(fullImagePath, (err) => {
+                    if (err) {
+                        console.error("Error deleting image file", err);
+                    }
+                });
             });
         }
         res.json({ message: "Item deleted successfully" });
